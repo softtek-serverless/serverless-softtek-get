@@ -1,0 +1,26 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: wils0ndevserverless
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: serverless-softtek-get
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: serverless-softtek-get
+
+custom:
+  stage: ${opt:stage, 'offline'}
+  region: ${opt:region, 'us-east-1'}
+  serverless-offline:
+        httpPort: 3000
+
+provider:
+  name: aws
+  stage: ${self:custom.stage}
+  region: ${self:custom.region}
+  runtime: nodejs20.x
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: "*"
+plugins:
+  - serverless-offline
